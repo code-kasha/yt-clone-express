@@ -1,4 +1,4 @@
-const jwt = require("jsonwebtoken")
+import jwt from "jsonwebtoken"
 
 /**
  * Authentication middleware to verify JWT tokens
@@ -57,4 +57,4 @@ const authMiddleware = (req, res, next) => {
 	}
 }
 
-module.exports = authMiddleware
+export default authMiddleware

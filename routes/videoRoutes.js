@@ -1,9 +1,11 @@
-const express = require("express")
-const Video = require("../models/Video")
-const Channel = require("../models/Channel")
+import express from "express"
+import Video from "../models/Video.js"
+import Channel from "../models/Channel.js"
 
-const authMiddleware = require("../middleware/authMiddleware")
-const { validateVideo } = require("../utils/validators")
+import authMiddleware from "../middleware/authMiddleware.js"
+import { validateVideo } from "../utils/validators.js"
+
+import { getYouTubeVideoId, getThumbnailUrl } from "../utils/helpers.js"
 
 const router = express.Router()
 
@@ -141,19 +143,119 @@ router.get("/:id", async (req, res) => {
  * Returns: { success, message, video }
  * Errors: 400 (validation), 401 (unauthorized), 403 (not channel owner), 500 (server)
  */
+//router.post("/", authMiddleware, async (req, res) => {
+//	try {
+//		const { title, description, videoUrl, thumbnailUrl, channelId, category } =
+//			req.body
+//		const userId = req.user.userId
+//		const normalizedChannelId = channelId?.trim()
+
+//		// ==================== VALIDATION ====================
+//		const validation = validateVideo({
+//			title,
+//			description,
+//			videoUrl,
+//			thumbnailUrl,
+//			channelId: normalizedChannelId,
+//			category,
+//		})
+
+//		if (!validation.isValid) {
+//			return res.status(400).json({
+//				success: false,
+//				message: "Validation failed. Please check the errors below.",
+//				errors: validation.errors,
+//			})
+//		}
+
+//		// ==================== CHANNEL OWNERSHIP CHECK ====================
+//		const channel = await Channel.findOne({
+//			$or: [
+//				{ channelId: normalizedChannelId },
+//				...(normalizedChannelId?.match(/^[0-9a-fA-F]{24}$/)
+//					? [{ _id: normalizedChannelId }]
+//					: []),
+//			],
+//		})
+
+//		if (!channel) {
+//			return res.status(404).json({
+//				success: false,
+//				message: "Channel not found.",
+//			})
+//		}
+
+//		// Check if user owns the channel
+//		if (channel.owner.toString() !== userId.toString()) {
+//			return res.status(403).json({
+//				success: false,
+//				message: "You can only upload videos to channels you own.",
+//			})
+//		}
+
+//		// ==================== VIDEO CREATION ====================
+//		const videoId = `vid_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+
+//		const newVideo = new Video({
+//			videoId,
+//			title: title.trim(),
+//			description: description?.trim() || "",
+//			videoUrl,
+//			thumbnailUrl,
+//			channelId: channel._id,
+//			uploader: userId,
+//			category,
+//		})
+
+//		await newVideo.save()
+
+//		// ==================== ADD TO CHANNEL ====================
+//		channel.videos.push(newVideo._id)
+//		await channel.save()
+
+//		// ==================== POPULATE AND RESPONSE ====================
+//		await newVideo.populate("uploader", "username avatar userId")
+//		await newVideo.populate("channelId", "channelName channelBanner")
+
+//		res.status(201).json({
+//			success: true,
+//			message: "Video created successfully.",
+//			video: newVideo,
+//		})
+//	} catch (error) {
+//		console.error("Create video error:", error)
+//		res.status(500).json({
+//			success: false,
+//			message: "Failed to create video.",
+//			error: process.env.NODE_ENV === "development" ? error.message : undefined,
+//		})
+//	}
+//})
+
+// ==================== ROUTE ====================
 router.post("/", authMiddleware, async (req, res) => {
 	try {
-		const { title, description, videoUrl, thumbnailUrl, channelId, category } =
-			req.body
+		const { title, description, videoUrl, channelId, category } = req.body
 		const userId = req.user.userId
+		const normalizedChannelId = channelId?.trim()
+
+		// ==================== THUMBNAIL GENERATION ====================
+		const generatedThumbnail = getThumbnailUrl(videoUrl)
+
+		if (!generatedThumbnail) {
+			return res.status(400).json({
+				success: false,
+				message: "Invalid YouTube URL. Could not extract thumbnail.",
+			})
+		}
 
 		// ==================== VALIDATION ====================
 		const validation = validateVideo({
 			title,
 			description,
 			videoUrl,
-			thumbnailUrl,
-			channelId,
+			thumbnailUrl: generatedThumbnail,
+			channelId: normalizedChannelId,
 			category,
 		})
 
@@ -166,7 +268,14 @@ router.post("/", authMiddleware, async (req, res) => {
 		}
 
 		// ==================== CHANNEL OWNERSHIP CHECK ====================
-		const channel = await Channel.findById(channelId)
+		const channel = await Channel.findOne({
+			$or: [
+				{ channelId: normalizedChannelId },
+				...(normalizedChannelId?.match(/^[0-9a-fA-F]{24}$/)
+					? [{ _id: normalizedChannelId }]
+					: []),
+			],
+		})
 
 		if (!channel) {
 			return res.status(404).json({
@@ -184,15 +293,17 @@ router.post("/", authMiddleware, async (req, res) => {
 		}
 
 		// ==================== VIDEO CREATION ====================
-		const videoId = `vid_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+		const videoId = `vid_${Date.now()}_${Math.random()
+			.toString(36)
+			.substr(2, 9)}`
 
 		const newVideo = new Video({
 			videoId,
 			title: title.trim(),
 			description: description?.trim() || "",
 			videoUrl,
-			thumbnailUrl,
-			channelId,
+			thumbnailUrl: generatedThumbnail,
+			channelId: channel._id,
 			uploader: userId,
 			category,
 		})
@@ -221,7 +332,6 @@ router.post("/", authMiddleware, async (req, res) => {
 		})
 	}
 })
-
 /**
  * PUT /api/videos/:id
  * Updates a video (protected route, owner only)
@@ -536,4 +646,4 @@ router.put("/:id/dislike", authMiddleware, async (req, res) => {
 	}
 })
 
-module.exports = router
+export default router

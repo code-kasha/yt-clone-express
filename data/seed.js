@@ -1,5 +1,7 @@
-const mongoose = require("mongoose")
-require("dotenv").config()
+import mongoose from "mongoose"
+import dotenv from "dotenv"
+
+dotenv.config()
 
 // Get paths from environment or use defaults
 const mongoUri =
@@ -29,10 +31,10 @@ const seedDatabase = async () => {
 		let User, Channel, Video, Comment
 
 		try {
-			User = require("../models/User")
-			Channel = require("../models/Channel")
-			Video = require("../models/Video")
-			Comment = require("../models/Comment")
+			User = await import("../models/User.js").then((m) => m.default)
+			Channel = await import("../models/Channel.js").then((m) => m.default)
+			Video = await import("../models/Video.js").then((m) => m.default)
+			Comment = await import("../models/Comment.js").then((m) => m.default)
 			console.log("✓ Models loaded successfully")
 		} catch (err) {
 			console.log(

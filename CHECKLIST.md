@@ -70,12 +70,12 @@ Track every task before submission. Check off each item as it is completed.
 
 ## 📺 Channel Management
 
-- [ ] `GET /api/channels/:id` — returns channel info + populated videos
-- [ ] `POST /api/channels` — creates channel (protected)
-- [ ] `PUT /api/channels/:id` — updates channel (protected, owner only)
-- [ ] `DELETE /api/channels/:id` — deletes channel and associated videos (protected, owner only)
-- [ ] Channel linked to owner (`userId`) on creation
-- [ ] One user can own multiple channels
+- [✅] `GET /api/channels/:id` — returns channel info + populated videos
+- [✅] `POST /api/channels` — creates channel (protected)
+- [✅] `PUT /api/channels/:id` — updates channel (protected, owner only)
+- [✅] `DELETE /api/channels/:id` — deletes channel and associated videos (protected, owner only)
+- [✅] Channel linked to owner (`userId`) on creation
+- [✅] One user can own multiple channels
 
 ---
 

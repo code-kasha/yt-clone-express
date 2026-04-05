@@ -258,9 +258,9 @@ const validateVideo = (data) => {
 
 	// Validate channelId
 	if (!data.channelId || typeof data.channelId !== "string") {
-		errors.channelId = "Channel ID is required and must be a valid MongoDB ID."
-	} else if (!data.channelId.match(/^[0-9a-fA-F]{24}$/)) {
-		errors.channelId = "Channel ID must be a valid MongoDB ID."
+		errors.channelId = "Channel ID is required and must be a string."
+	} else if (!data.channelId.trim()) {
+		errors.channelId = "Channel ID is required."
 	}
 
 	// Validate category
@@ -283,6 +283,40 @@ const validateVideo = (data) => {
 }
 
 /**
+ * Validate channel creation/update input
+ *
+ * @param {object} data - Channel data
+ * @returns {object} { isValid: boolean, errors: object }
+ */
+const validateChannel = (data) => {
+	const errors = {}
+
+	if (!data.channelName || typeof data.channelName !== "string") {
+		errors.channelName = "Channel name is required and must be a string."
+	} else if (data.channelName.trim().length < 3) {
+		errors.channelName = "Channel name must be at least 3 characters long."
+	} else if (data.channelName.trim().length > 100) {
+		errors.channelName = "Channel name must not exceed 100 characters."
+	}
+
+	if (data.description && typeof data.description !== "string") {
+		errors.description = "Description must be a string."
+	} else if (data.description && data.description.trim().length > 5000) {
+		errors.description = "Description must not exceed 5000 characters."
+	}
+
+	if (data.channelBanner && typeof data.channelBanner !== "string") {
+		errors.channelBanner = "Channel banner must be a string."
+	} else if (data.channelBanner && !isValidUrl(data.channelBanner)) {
+		errors.channelBanner = "Channel banner must be a valid URL."
+	}
+
+	const isValid = Object.keys(errors).length === 0
+
+	return { isValid, errors }
+}
+
+/**
  * Helper function to validate URL format
  *
  * @param {string} url - URL to validate
@@ -297,11 +331,12 @@ const isValidUrl = (url) => {
 	}
 }
 
-module.exports = {
+export {
 	validateUsername,
 	validateEmail,
 	validatePassword,
 	validateRegistration,
 	validateLogin,
 	validateVideo,
+	validateChannel,
 }

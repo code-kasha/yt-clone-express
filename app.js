@@ -1,18 +1,16 @@
-const express = require("express")
-const cors = require("cors")
-const path = require("path")
+import express from "express"
+import cors from "cors"
+import dotenv from "dotenv"
 
-require("dotenv").config()
+dotenv.config()
 
 // Import database connection
-const connectDB = require("./config/db")
+import connectDB from "./config/db.js"
 
 // Import routes
-const authRoutes = require("./routes/authRoutes")
-const videoRoutes = require("./routes/videoRoutes")
-
-// Import middleware
-const authMiddleware = require("./middleware/authMiddleware")
+import authRoutes from "./routes/authRoutes.js"
+import videoRoutes from "./routes/videoRoutes.js"
+import channelRoutes from "./routes/channelRoutes.js"
 
 // Initialize Express app
 const app = express()
@@ -76,6 +74,8 @@ app.get("/api", (req, res) => {
 				createVideo: "POST /api/videos (protected)",
 				updateVideo: "PATCH /api/videos/:id (protected)",
 				deleteVideo: "DELETE /api/videos/:id (protected)",
+				likeVideo: "PUT /api/videos/:id/like (protected)",
+				dislikeVideo: "PUT /api/videos/:id/dislike (protected)",
 			},
 			channels: {
 				getAllChannels: "GET /api/channels",
@@ -96,30 +96,7 @@ app.get("/api", (req, res) => {
 // All auth routes: register, login, me (protected)
 app.use("/api/auth", authRoutes)
 app.use("/api/videos", videoRoutes)
-
-// ==================== PROTECTED ROUTE EXAMPLE ====================
-
-// Example: Protected route template
-app.get("/api/user-videos", authMiddleware, async (req, res) => {
-	try {
-		// req.user is now available (attached by authMiddleware)
-		const userId = req.user.userId
-
-		res.status(200).json({
-			success: true,
-			message: "User videos retrieved",
-			userId: userId,
-			videos: [],
-			note: "This is a protected route - requires valid JWT token",
-		})
-	} catch (error) {
-		res.status(500).json({
-			success: false,
-			message: "Failed to fetch user videos",
-			error: error.message,
-		})
-	}
-})
+app.use("/api/channels", channelRoutes)
 
 // ==================== 404 HANDLER ====================
 
@@ -136,7 +113,8 @@ app.use((req, res) => {
 			"POST /api/auth/login",
 			"GET /api/auth/me",
 			"GET /api/videos",
-			"GET /api/user-videos",
+			"GET /api/channels",
+			"GET /api/channels/:id",
 		],
 	})
 })
@@ -184,12 +162,10 @@ const server = app.listen(PORT, () => {
 	console.log("  GET  http://localhost:" + PORT + "/api/auth/me (protected)\n")
 	console.log("Videos:")
 	console.log("  GET  http://localhost:" + PORT + "/api/videos")
-	console.log(
-		"  GET  http://localhost:" + PORT + "/api/user-videos (protected)\n",
-	)
+	console.log("Channels:")
+	console.log("  GET  http://localhost:" + PORT + "/api/channels")
+	console.log("  GET  http://localhost:" + PORT + "/api/channels/:id\n")
 	console.log("=".repeat(60))
-	console.log("💡 TIP: Test with curl or Postman")
-	console.log('💡 Include "Authorization: Bearer <TOKEN>" for protected routes')
 	console.log("=".repeat(60) + "\n")
 })
 
@@ -222,5 +198,3 @@ process.on("uncaughtException", (error) => {
 	console.error("Uncaught Exception:", error)
 	process.exit(1)
 })
-
-module.exports = app

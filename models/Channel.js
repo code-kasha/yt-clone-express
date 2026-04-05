@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+import mongoose from "mongoose"
 
 const channelSchema = new mongoose.Schema(
 	{
@@ -42,4 +42,4 @@ const channelSchema = new mongoose.Schema(
 	{ timestamps: true },
 )
 
-module.exports = mongoose.model("Channel", channelSchema)
+export default mongoose.model("Channel", channelSchema)
