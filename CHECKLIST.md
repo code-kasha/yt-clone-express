@@ -92,20 +92,20 @@ Track every task before submission. Check off each item as it is completed.
 
 ## 🔒 Security & Middleware
 
-- [ ] CORS configured to allow frontend origin (`http://localhost:5173`)
-- [ ] `express.json()` middleware applied globally
-- [ ] Auth middleware applied to all protected routes
-- [ ] Ownership checked before update/delete operations
-- [ ] Passwords never returned in API responses
+- [✅] CORS configured to allow frontend origin (`http://localhost:5173`)
+- [✅] `express.json()` middleware applied globally
+- [✅] Auth middleware applied to all protected routes
+- [✅] Ownership checked before update/delete operations
+- [✅] Passwords never returned in API responses
 
 ---
 
 ## 🧪 Testing & Quality
 
 - [ ] All routes manually tested (Postman / Thunder Client)
-- [ ] Successful responses use correct HTTP status codes (`200`, `201`)
-- [ ] Error responses use correct status codes (`400`, `401`, `403`, `404`, `500`)
-- [ ] No `console.log` left in production code (or cleaned up)
+- [✅] Successful responses use correct HTTP status codes (`200`, `201`)
+- [✅] Error responses use correct status codes (`400`, `401`, `403`, `404`, `500`)
+- [✅] No `console.log` left in production code (or cleaned up)
 - [ ] No `node_modules/` committed
 
 ---
