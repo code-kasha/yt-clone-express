@@ -6,65 +6,65 @@ Track every task before submission. Check off each item as it is completed.
 
 ## 📁 Project Setup
 
-- [ ] Initialised Node.js project with `npm init`
-- [ ] ES Modules enabled (`"type": "module"` in `package.json`)
-- [ ] Installed dependencies: `express`, `mongoose`, `bcryptjs`, `jsonwebtoken`, `dotenv`, `cors`
-- [ ] Installed dev dependencies: `nodemon`
-- [ ] `.env` file created (never committed to Git)
-- [ ] `.env.example` committed with placeholder values
-- [ ] `.gitignore` includes `node_modules/`, `.env`
-- [ ] Folder structure created: `config/`, `controllers/`, `middleware/`, `models/`, `routes/`
+- [✅] Initialised Node.js project with `npm init`
+- [✅] ES Modules enabled (`"type": "module"` in `package.json`)
+- [✅] Installed dependencies: `express`, `mongoose`, `bcryptjs`, `jsonwebtoken`, `dotenv`, `cors`
+- [✅] Installed dev dependencies: `nodemon`
+- [✅] `.env` file created (never committed to Git)
+- [✅] `.env.example` committed with placeholder values
+- [✅] `.gitignore` includes `node_modules/`, `.env`
+- [✅] Folder structure created: `config/`, `controllers/`, `middleware/`, `models/`, `routes/`
 
 ---
 
 ## 🗄️ Database
 
-- [ ] MongoDB connection configured in `config/db.js`
-- [ ] Connection uses `MONGO_URI` from environment variable
-- [ ] Connection success/failure logged to console
-- [ ] **User** model created with: `userId`, `username`, `email`, `password`, `avatar`, `channels`
-- [ ] **Video** model created with: `videoId`, `title`, `thumbnailUrl`, `videoUrl`, `description`, `channelId`, `uploader`, `views`, `likes`, `dislikes`, `category`, `uploadDate`, `comments`
-- [ ] **Channel** model created with: `channelId`, `channelName`, `owner`, `description`, `channelBanner`, `subscribers`, `videos`
-- [ ] **Comment** model created with: `commentId`, `videoId`, `userId`, `text`, `timestamp`
-- [ ] Seed script written (`npm run seed`)
-- [ ] Sample data seeded (users, channels, videos, comments)
+- [✅] MongoDB connection configured in `config/db.js`
+- [✅] Connection uses `MONGO_URI` from environment variable
+- [✅] Connection success/failure logged to console
+- [✅] **User** model created with: `userId`, `username`, `email`, `password`, `avatar`, `channels`
+- [✅] **Video** model created with: `videoId`, `title`, `thumbnailUrl`, `videoUrl`, `description`, `channelId`, `uploader`, `views`, `likes`, `dislikes`, `category`, `uploadDate`, `comments`
+- [✅] **Channel** model created with: `channelId`, `channelName`, `owner`, `description`, `channelBanner`, `subscribers`, `videos`
+- [✅] **Comment** model created with: `commentId`, `videoId`, `userId`, `text`, `timestamp`
+- [✅] Seed script written (`npm run seed`)
+- [✅] Sample data seeded (users, channels, videos, comments)
 
 ---
 
 ## 🔐 Authentication
 
-- [ ] `POST /api/auth/register` — creates user with hashed password
-- [ ] `POST /api/auth/login` — validates credentials, returns JWT
-- [ ] `GET /api/auth/me` — returns logged-in user profile (protected)
-- [ ] Password hashed with `bcryptjs` before saving
-- [ ] JWT signed with `JWT_SECRET` from env
-- [ ] JWT includes `userId` in payload
-- [ ] Token expiry configured (`JWT_EXPIRES_IN`)
-- [ ] `authMiddleware.js` verifies token and attaches `req.user`
-- [ ] Protected routes return `401` when token is missing or invalid
+- [✅] `POST /api/auth/register` — creates user with hashed password
+- [✅] `POST /api/auth/login` — validates credentials, returns JWT
+- [✅] `GET /api/auth/me` — returns logged-in user profile (protected)
+- [✅] Password hashed with `bcryptjs` before saving
+- [✅] JWT signed with `JWT_SECRET` from env
+- [✅] JWT includes `userId` in payload
+- [✅] Token expiry configured (`JWT_EXPIRES_IN`)
+- [✅] `authMiddleware.js` verifies token and attaches `req.user`
+- [✅] Protected routes return `401` when token is missing or invalid
 
 ### Validation
 
-- [ ] Username: required, 3–20 chars
-- [ ] Email: required, valid format
-- [ ] Password: required, minimum 6 chars
-- [ ] Validation errors return `400` with descriptive message
+- [✅] Username: required, 3–20 chars
+- [✅] Email: required, valid format
+- [✅] Password: required, minimum 6 chars
+- [✅] Validation errors return `400` with descriptive message
 
 ---
 
 ## 🎬 Video Management
 
-- [ ] `GET /api/videos` — returns all videos
-- [ ] `GET /api/videos?search=<query>` — filters by title (case-insensitive)
-- [ ] `GET /api/videos?category=<cat>` — filters by category
-- [ ] `GET /api/videos/:id` — returns single video, increments view count
-- [ ] `POST /api/videos` — creates video (protected, owner only)
-- [ ] `PUT /api/videos/:id` — updates video (protected, owner only)
-- [ ] `DELETE /api/videos/:id` — deletes video (protected, owner only)
-- [ ] `PUT /api/videos/:id/like` — toggles like (protected)
-- [ ] `PUT /api/videos/:id/dislike` — toggles dislike (protected)
-- [ ] Video linked to channel and uploader on creation
-- [ ] Deleted video removed from channel's `videos` array
+- [✅] `GET /api/videos` — returns all videos
+- [✅] `GET /api/videos?search=<query>` — filters by title (case-insensitive)
+- [✅] `GET /api/videos?category=<cat>` — filters by category
+- [✅] `GET /api/videos/:id` — returns single video, increments view count
+- [✅] `POST /api/videos` — creates video (protected, owner only)
+- [✅] `PUT /api/videos/:id` — updates video (protected, owner only)
+- [✅] `DELETE /api/videos/:id` — deletes video (protected, owner only)
+- [✅] `PUT /api/videos/:id/like` — toggles like (protected)
+- [✅] `PUT /api/videos/:id/dislike` — toggles dislike (protected)
+- [✅] Video linked to channel and uploader on creation
+- [✅] Deleted video removed from channel's `videos` array
 
 ---
 
