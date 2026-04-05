@@ -11,6 +11,7 @@ import connectDB from "./config/db.js"
 import authRoutes from "./routes/authRoutes.js"
 import videoRoutes from "./routes/videoRoutes.js"
 import channelRoutes from "./routes/channelRoutes.js"
+import commentRoutes from "./routes/commentRoutes.js"
 
 // Initialize Express app
 const app = express()
@@ -83,9 +84,11 @@ app.get("/api", (req, res) => {
 				createChannel: "POST /api/channels (protected)",
 			},
 			comments: {
-				getComments: "GET /api/videos/:videoId/comments",
-				addComment: "POST /api/videos/:videoId/comments (protected)",
-				deleteComment: "DELETE /api/comments/:commentId (protected)",
+				getComments: "GET /api/comments/:videoId",
+				addComment: "POST /api/comments/:videoId (protected)",
+				updateComment: "PUT /api/comments/:commentId (protected, author only)",
+				deleteComment:
+					"DELETE /api/comments/:commentId (protected, author only)",
 			},
 		},
 	})
@@ -97,6 +100,7 @@ app.get("/api", (req, res) => {
 app.use("/api/auth", authRoutes)
 app.use("/api/videos", videoRoutes)
 app.use("/api/channels", channelRoutes)
+app.use("/api/comments", commentRoutes)
 
 // ==================== 404 HANDLER ====================
 

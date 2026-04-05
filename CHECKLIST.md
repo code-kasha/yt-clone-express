@@ -81,12 +81,12 @@ Track every task before submission. Check off each item as it is completed.
 
 ## 💬 Comments
 
-- [ ] `GET /api/comments/:videoId` — returns all comments for a video
-- [ ] `POST /api/comments/:videoId` — adds comment to video (protected)
-- [ ] `PUT /api/comments/:commentId` — edits comment (protected, author only)
-- [ ] `DELETE /api/comments/:commentId` — deletes comment (protected, author only)
-- [ ] Comment saved with `videoId`, `userId`, `text`, `timestamp`
-- [ ] Comment added to video's `comments` array
+- [✅] `GET /api/comments/:videoId` — returns all comments for a video
+- [✅] `POST /api/comments/:videoId` — adds comment to video (protected)
+- [✅] `PUT /api/comments/:commentId` — edits comment (protected, author only)
+- [✅] `DELETE /api/comments/:commentId` — deletes comment (protected, author only)
+- [✅] Comment saved with `videoId`, `userId`, `text`, `timestamp`
+- [✅] Comment added to video's `comments` array
 
 ---
 
