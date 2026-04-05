@@ -33,8 +33,18 @@ const corsOptions = {
 }
 app.use(cors(corsOptions))
 
-// Body Parser Middleware
-app.use(express.json({ limit: "10mb", strict: false }))
+// Body Parser Middleware - Skip for empty bodies
+app.use((req, res, next) => {
+	if (req.method === "POST" || req.method === "PUT" || req.method === "PATCH") {
+		if (!req.headers["content-length"] || parseInt(req.headers["content-length"]) === 0) {
+			req.body = {}
+			return next()
+		}
+	}
+	next()
+})
+
+app.use(express.json({ limit: "10mb" }))
 app.use(express.urlencoded({ limit: "10mb", extended: true }))
 
 // Request Logging Middleware (optional)
