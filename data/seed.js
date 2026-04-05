@@ -12,7 +12,6 @@ console.log("   URI:", mongoUri)
 
 const connectDB = async () => {
 	try {
-		// Mongoose 9.x removed support for useNewUrlParser and useUnifiedTopology
 		await mongoose.connect(mongoUri)
 
 		console.log("✓ MongoDB connection established successfully")
@@ -177,28 +176,28 @@ const seedDatabase = async () => {
 		console.log("\n👥 Creating sample users...")
 		const users = await User.insertMany([
 			{
-				userId: "user_001",
+				userId: "user_7x4k2m9p",
 				username: "TechGuru",
 				email: "techguru@example.com",
 				password: "hashed_password_123",
 				avatar: "https://via.placeholder.com/150?text=TechGuru",
 			},
 			{
-				userId: "user_002",
+				userId: "user_5j8r3v1b",
 				username: "MusicLover",
 				email: "musiclover@example.com",
 				password: "hashed_password_456",
 				avatar: "https://via.placeholder.com/150?text=MusicLover",
 			},
 			{
-				userId: "user_003",
+				userId: "user_9h2w6t4n",
 				username: "GameMaster",
 				email: "gamemaster@example.com",
 				password: "hashed_password_789",
 				avatar: "https://via.placeholder.com/150?text=GameMaster",
 			},
 			{
-				userId: "user_004",
+				userId: "user_3f1c8d5x",
 				username: "EducationHub",
 				email: "educationhub@example.com",
 				password: "hashed_password_000",
@@ -211,7 +210,7 @@ const seedDatabase = async () => {
 		console.log("\n📺 Creating sample channels...")
 		const channels = await Channel.insertMany([
 			{
-				channelId: "ch_001",
+				channelId: "ch_4q7m2v9r",
 				channelName: "Tech Tutorials",
 				owner: users[0]._id,
 				description: "Learn the latest in web development and programming",
@@ -220,7 +219,7 @@ const seedDatabase = async () => {
 				subscribers: 15420,
 			},
 			{
-				channelId: "ch_002",
+				channelId: "ch_8x1p5k3w",
 				channelName: "Music Lounge",
 				owner: users[1]._id,
 				description: "Your daily dose of music, covers, and originals",
@@ -228,7 +227,7 @@ const seedDatabase = async () => {
 				subscribers: 8950,
 			},
 			{
-				channelId: "ch_003",
+				channelId: "ch_2b9t6h4j",
 				channelName: "Gaming Zone",
 				owner: users[2]._id,
 				description: "Epic gaming streams and gameplay videos",
@@ -236,7 +235,7 @@ const seedDatabase = async () => {
 				subscribers: 24560,
 			},
 			{
-				channelId: "ch_004",
+				channelId: "ch_6n3y1z7c",
 				channelName: "Learn & Grow",
 				owner: users[3]._id,
 				description: "Educational content for all skill levels",
@@ -251,7 +250,7 @@ const seedDatabase = async () => {
 		console.log("\n🎬 Creating sample videos...")
 		const videos = await Video.insertMany([
 			{
-				videoId: "vid_001",
+				videoId: "vid_5w2k9m1q",
 				title: "React Hooks Explained in 10 Minutes",
 				thumbnailUrl: "https://via.placeholder.com/320x180?text=React+Hooks",
 				videoUrl: "https://example.com/videos/react-hooks.mp4",
@@ -266,7 +265,7 @@ const seedDatabase = async () => {
 				uploadDate: new Date("2024-01-15"),
 			},
 			{
-				videoId: "vid_002",
+				videoId: "vid_7r4x3t8b",
 				title: "Node.js Best Practices",
 				thumbnailUrl: "https://via.placeholder.com/320x180?text=Node.js",
 				videoUrl: "https://example.com/videos/nodejs.mp4",
@@ -281,7 +280,7 @@ const seedDatabase = async () => {
 				uploadDate: new Date("2024-01-10"),
 			},
 			{
-				videoId: "vid_003",
+				videoId: "vid_1j6n5p9v",
 				title: "Acoustic Cover - Imagine",
 				thumbnailUrl: "https://via.placeholder.com/320x180?text=Acoustic+Cover",
 				videoUrl: "https://example.com/videos/acoustic-cover.mp4",
@@ -295,7 +294,7 @@ const seedDatabase = async () => {
 				uploadDate: new Date("2024-01-12"),
 			},
 			{
-				videoId: "vid_004",
+				videoId: "vid_8c3f2h7y",
 				title: "Top 10 Gaming Moments 2024",
 				thumbnailUrl: "https://via.placeholder.com/320x180?text=Gaming+Moments",
 				videoUrl: "https://example.com/videos/gaming-moments.mp4",
@@ -309,7 +308,7 @@ const seedDatabase = async () => {
 				uploadDate: new Date("2024-01-08"),
 			},
 			{
-				videoId: "vid_005",
+				videoId: "vid_4d9x1r6s",
 				title: "Web Development Roadmap 2024",
 				thumbnailUrl:
 					"https://via.placeholder.com/320x180?text=Web+Dev+Roadmap",
@@ -330,35 +329,35 @@ const seedDatabase = async () => {
 		console.log("\n💬 Creating sample comments...")
 		const comments = await Comment.insertMany([
 			{
-				commentId: "com_001",
+				commentId: "com_3m8p2k5t",
 				videoId: videos[0]._id,
 				userId: users[1]._id,
 				text: "This explanation was so clear! Finally understand hooks properly.",
 				timestamp: new Date("2024-01-16"),
 			},
 			{
-				commentId: "com_002",
+				commentId: "com_6v1x9r4j",
 				videoId: videos[0]._id,
 				userId: users[2]._id,
 				text: "Great tutorial! Can you make one on Context API next?",
 				timestamp: new Date("2024-01-16"),
 			},
 			{
-				commentId: "com_003",
+				commentId: "com_9b7c2n3h",
 				videoId: videos[1]._id,
 				userId: users[3]._id,
 				text: "Excellent best practices. Implementing these in my project.",
 				timestamp: new Date("2024-01-11"),
 			},
 			{
-				commentId: "com_004",
+				commentId: "com_2w5f1d8q",
 				videoId: videos[3]._id,
 				userId: users[0]._id,
 				text: "These gaming moments are insane! 🔥",
 				timestamp: new Date("2024-01-09"),
 			},
 			{
-				commentId: "com_005",
+				commentId: "com_7h4y6z1n",
 				videoId: videos[4]._id,
 				userId: users[1]._id,
 				text: "This roadmap is exactly what I needed to get started!",
