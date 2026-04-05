@@ -1,4 +1,4 @@
-# � YouTube Clone — Backend API
+# 📺 YouTube Clone — Backend API
 
 > Node.js · Express · MongoDB · JWT Authentication
 
@@ -62,7 +62,7 @@ This backend implements **the complete backend requirements** for the MERN YouTu
 backend/
 ├── app.js                     # Express app setup & routes registration
 ├── package.json               # Dependencies & scripts
-├── .env                        # Environment variables (local, NOT in git)
+├── .env                       # Environment variables (local, NOT in git)
 ├── .env.example               # Environment template
 ├── .gitignore                 # Git ignore rules
 │
@@ -70,23 +70,23 @@ backend/
 │   └── db.js                  # MongoDB connection setup
 │
 ├── models/
-│   ├── User.js                # User schema (username, email, password, avatar, channels)
-│   ├── Channel.js             # Channel schema (owner, videos, subscribers)
-│   ├── Video.js               # Video schema (title, uploader, views, likes, comments)
-│   └── Comment.js             # Comment schema (video, user, text, timestamp)
+│   ├── User.js                # User schema
+│   ├── Channel.js             # Channel schema
+│   ├── Video.js               # Video schema
+│   └── Comment.js             # Comment schema
 │
 ├── routes/
-│   ├── authRoutes.js          # Auth endpoints (register, login, profile)
-│   ├── videoRoutes.js         # Video endpoints (CRUD + like/dislike)
-│   ├── channelRoutes.js       # Channel endpoints (CRUD)
-│   └── commentRoutes.js       # Comment endpoints (CRUD)
+│   ├── authRoutes.js          # Auth endpoints
+│   ├── videoRoutes.js         # Video endpoints
+│   ├── channelRoutes.js       # Channel endpoints
+│   └── commentRoutes.js       # Comment endpoints
 │
 ├── middleware/
-│   └── authMiddleware.js      # JWT verification & user attachment
+│   └── authMiddleware.js      # JWT verification
 │
 ├── utils/
 │   ├── validators.js          # Input validation functions
-│   └── helpers.js             # YouTube video ID & thumbnail extraction
+│   └── helpers.js             # YouTube URL & thumbnail extraction
 │
 └── data/
     └── seed.js                # Database seeding script
@@ -100,7 +100,7 @@ backend/
 
 - **Node.js** v18+ ([download](https://nodejs.org))
 - **MongoDB** (local or [MongoDB Atlas](https://www.mongodb.com/cloud/atlas))
-- **pnpm** v10+ (or npm/yarn)
+- **npm** (comes with Node.js)
 
 ### Installation
 
@@ -110,17 +110,18 @@ git clone https://github.com/code-kasha/yt-clone-express.git
 cd yt-clone-express/backend
 
 # 2. Install dependencies
-pnpm install
+npm install
 
 # 3. Create your environment file
 cp .env.example .env
-# Edit .env with your MongoDB URI, JWT secret, etc.
 
-# 4. Seed sample data (optional)
-pnpm run seed
+# 4. Update .env with your MongoDB URI and settings
 
-# 5. Start the development server
-pnpm dev
+# 5. Seed sample data (optional)
+npm run seed
+
+# 6. Start the development server
+npm run dev
 ```
 
 The server will start on **`http://localhost:5000`** by default.
@@ -162,7 +163,21 @@ http://localhost:5000/api
 
 ### Authentication
 
-Routes marked wit| ✅ | Get current user profile |
+Routes marked with ✅ require a Bearer token in the `Authorization` header:
+
+```
+Authorization: Bearer <jwt_token>
+```
+
+---
+
+## 🔐 Auth Routes — `/api/auth`
+
+| Method | Endpoint    | Auth | Description              |
+| ------ | ----------- | ---- | ------------------------ |
+| POST   | `/register` | ❌   | Register new user        |
+| POST   | `/login`    | ❌   | Login user               |
+| GET    | `/me`       | ✅   | Get current user profile |
 
 ### Register
 
@@ -206,103 +221,57 @@ Routes marked wit| ✅ | Get current user profile |
 
 **Response (200):**
 
-````json
-{
-  "success": true,
-  "message": "Login successful.",
-  "user": {
-    "id": "507f1f77bcf86cd799439011",
-    "userId": "user_1234567890",
-    "username": "john_doe",
-    "email": "john@example.com",
-    "avatar": "https://..."
-  },
-  "token": "eyJhbGciOiJIUzI1NiIs..."
-`` 🎬
-
-**Login Response:**
-
 ```json
 {
-	"token": "<jwt_token>",
+	"success": true,
+	"message": "Login successful.",
 	"user": {
-		"userId": "user01",
-		"username": "JohnDoe",
-		"email": "john@example.com",| Toggle dislike (protected) |
+		"id": "507f1f77bcf86cd799439011",
+		"userId": "user_1234567890",
+		"username": "john_doe",
+		"email": "john@example.com",
+		"avatar": "https://..."
+	},
+	"token": "eyJhbGciOiJIUzI1NiIs..."
+}
+```
+
+---
+
+## 🎬 Video Routes — `/api/videos`
+
+| Method | Endpoint       | Auth | Description               |
+| ------ | -------------- | ---- | ------------------------- |
+| GET    | `/`            | ❌   | Get all videos            |
+| GET    | `/:id`         | ❌   | Get single video          |
+| POST   | `/`            | ✅   | Create video              |
+| PUT    | `/:id`         | ✅   | Update video (owner only) |
+| DELETE | `/:id`         | ✅   | Delete video (owner only) |
+| PUT    | `/:id/like`    | ✅   | Toggle like               |
+| PUT    | `/:id/dislike` | ✅   | Toggle dislike            |
 
 ### Query Parameters
-````
 
+```
 GET /api/videos?search=react&category=Education&page=1&limit=10
+```
 
-````
 - `search` — Filter by title (case-insensitive)
 - `category` — Filter by category (Music, Gaming, Education, Entertainment, Sports, Tech, Other)
 - `page` — Pagination page (default: 1)
 - `limit` — Items per page (default: 10)
 
-### Create Video
-**Request (POST /api/videos):**
-```json
-{
-  "title": "Learn React in 30 Minutes",
-  "description": "A quick tutorial for beginners",
-   📺videoUrl": "https://youtu.be/dQw4w9WgXcQ",
-  "category": "Education",
-  "channelId": "507f1f77bcf86cd799439011"
-}
-````
+---
 
-**Response (201):**
+## 📺 Channel Routes — `/api/channels`
 
-````json
-{
-  "success": true,
-  "message": "Video created successfully.",
-  "video": {
-    "_id": "507f1f77bcf86cd799439012",
-    "videoId": "vid_1234567890",
-    "title": "Learn React in 30 Minutes",
-    "thumbnailUrl": "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-    "views": 0,
-    "likes": 0,
-    "dislikes": 0,
-    "category": "Education",
-    "uploadDate": "2024-01-15T10:30:00.00|
-| ------ | -------- | ---- | ----------- |
-| GET | `/` | ❌ | Get all channels |
-| GET | `/:id` | ❌ | Get channel + videos |
-| POST | `/` | ✅ | Create new channel |
-| PUT | `/:id` | ✅ | Update channel (owner only) |
-| DELETE | `/:id` | ✅ | Delete channel + videos (owner only) |
-
-### Create Channel
-**Request (POST /api/channels):**
-```json
-{
-  "channelName": "Code with John",
-  "description": "Coding tutorials and tech reviews.",
-  "channelBanner": "https://example.com/banner.png"
-}
-````
-
-**Response (201):**
-
-```json
-{
-	"success": true,
-	"message": "Channel created successfully.",
-	"channel": {
-		"_id": "507f1f77bcf86cd799439013",
-		"channelId": "ch_1234567890",
-		"channelName": "Code with John",
-		"owner": "507f1f77bcf86cd799439011",
-		"subscribers": 0,
-		"videos": [],
-		"createdAt": "2024-01-15T10:30:00.000Z"
-	}
-}
-```
+| Method | Endpoint | Auth | Description                          |
+| ------ | -------- | ---- | ------------------------------------ |
+| GET    | `/`      | ❌   | Get all channels                     |
+| GET    | `/:id`   | ❌   | Get channel + videos                 |
+| POST   | `/`      | ✅   | Create new channel                   |
+| PUT    | `/:id`   | ✅   | Update channel (owner only)          |
+| DELETE | `/:id`   | ✅   | Delete channel + videos (owner only) |
 
 ---
 
@@ -314,37 +283,6 @@ GET /api/videos?search=react&category=Education&page=1&limit=10
 | POST   | `/:videoId`   | ✅   | Add comment to video         |
 | PUT    | `/:commentId` | ✅   | Edit comment (author only)   |
 | DELETE | `/:commentId` | ✅   | Delete comment (author only) |
-
-### Add Comment
-
-**Request (POST /api/comments/:videoId):**
-
-```json
-{
-	"text": "Great tutorial! Very helpful."
-}
-```
-
-**Response (201):**
-
-```json
-{
-	"success": true,
-	"message": "Comment added successfully.",
-	"comment": {
-		"_id": "507f1f77bcf86cd799439014",
-		"commentId": "com_1234567890",
-		"videoId": "507f1f77bcf86cd799439012",
-		"userId": {
-			"_id": "507f1f77bcf86cd799439011",
-			"username": "john_doe",
-			"avatar": "https://..."
-		},
-		"text": "Great tutorial! Very helpful.",
-		"timestamp": "2024-01-15T10:35:00.000Z"
-	}
-}
-```
 
 ---
 
@@ -417,11 +355,9 @@ All errors follow a consistent format:
 ## 📝 Scripts
 
 ```bash
-# Start development server with hot reload
-pnpm dev
-
-# Seed database with sample data
-pnpm run seed
+npm run dev       # Start development server with hot reload
+npm start         # Start production server
+npm run seed      # Seed database with sample data
 ```
 
 ---
@@ -504,7 +440,7 @@ pnpm run seed
 Run the seed script to populate the database with sample data:
 
 ```bash
-pnpm run seed
+npm run seed
 ```
 
 This creates:
@@ -513,8 +449,6 @@ This creates:
 - 4 sample channels
 - 5 sample videos
 - 5 sample comments
-
-Perfect for testing and development.
 
 ---
 
@@ -562,30 +496,3 @@ ISC License
 ## 📞 Support
 
 For issues or questions, open an issue on [GitHub](https://github.com/code-kasha/yt-clone-express/issues)
-
-| Field    | Rule                                    |
-| -------- | --------------------------------------- |
-| username | Required, 3–20 characters, alphanumeric |
-| email    | Required, valid email format            |
-| password | Required, minimum 6 characters          |
-
-Validation errors return `400` with a descriptive JSON message.
-
----
-
-## Scripts
-
-```bash
-npm run dev      # Start with nodemon (hot reload)
-npm start        # Start in production
-npm run seed     # Seed sample data into MongoDB
-```
-
----
-
-## Notes for Evaluators
-
-- All routes use **ES Module** syntax (`import/export`).
-- Protected routes return `401 Unauthorized` without a valid JWT.
-- CORS is configured to accept requests from `http://localhost:5173` (Vite default).
-- Video search is handled via query param: `GET /api/videos?search=react&category=Education`.
