@@ -1,4 +1,5 @@
 import mongoose from "mongoose"
+import { buildChannelBannerUrl } from "../utils/helpers.js"
 
 const channelSchema = new mongoose.Schema(
 	{
@@ -25,7 +26,7 @@ const channelSchema = new mongoose.Schema(
 		},
 		channelBanner: {
 			type: String,
-			default: "https://via.placeholder.com/1280x320?text=Channel+Banner",
+			default: () => buildChannelBannerUrl("Channel Banner"),
 		},
 		subscribers: {
 			type: Number,

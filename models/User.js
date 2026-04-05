@@ -1,4 +1,5 @@
 import mongoose from "mongoose"
+import { buildAvatarUrl } from "../utils/helpers.js"
 
 const userSchema = new mongoose.Schema(
 	{
@@ -28,7 +29,7 @@ const userSchema = new mongoose.Schema(
 		},
 		avatar: {
 			type: String,
-			default: "https://via.placeholder.com/150?text=Avatar",
+			default: () => buildAvatarUrl("Avatar"),
 		},
 		channels: [
 			{

@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs"
 import User from "../models/User.js"
 import authMiddleware from "../middleware/authMiddleware.js"
 import { validateRegistration, validateLogin } from "../utils/validators.js"
+import { buildAvatarUrl, normalizeAvatarUrl } from "../utils/helpers.js"
 
 const router = express.Router()
 
@@ -61,7 +62,7 @@ router.post("/register", async (req, res) => {
 			username: username.trim().toLowerCase(),
 			email: email.trim().toLowerCase(),
 			password: hashedPassword,
-			avatar: `https://via.placeholder.com/150?text=${encodeURIComponent(username)}`,
+			avatar: buildAvatarUrl(username),
 		})
 
 		await newUser.save()
@@ -86,7 +87,7 @@ router.post("/register", async (req, res) => {
 				userId: newUser.userId,
 				username: newUser.username,
 				email: newUser.email,
-				avatar: newUser.avatar,
+				avatar: normalizeAvatarUrl(newUser.avatar, newUser.username),
 			},
 			token,
 		})
@@ -169,7 +170,7 @@ router.post("/login", async (req, res) => {
 				userId: user.userId,
 				username: user.username,
 				email: user.email,
-				avatar: user.avatar,
+				avatar: normalizeAvatarUrl(user.avatar, user.username),
 			},
 			token,
 		})
@@ -212,7 +213,7 @@ router.get("/me", authMiddleware, async (req, res) => {
 				userId: user.userId,
 				username: user.username,
 				email: user.email,
-				avatar: user.avatar,
+				avatar: normalizeAvatarUrl(user.avatar, user.username),
 				channels: user.channels,
 				createdAt: user.createdAt,
 			},

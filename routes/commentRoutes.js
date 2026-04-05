@@ -2,8 +2,22 @@ import express from "express"
 import Comment from "../models/Comment.js"
 import Video from "../models/Video.js"
 import authMiddleware from "../middleware/authMiddleware.js"
+import { normalizeAvatarUrl } from "../utils/helpers.js"
 
 const router = express.Router()
+
+const normalizeCommentResponse = (commentDoc) => {
+	const comment = commentDoc.toObject ? commentDoc.toObject() : { ...commentDoc }
+
+	if (comment.userId) {
+		comment.userId.avatar = normalizeAvatarUrl(
+			comment.userId.avatar,
+			comment.userId.username,
+		)
+	}
+
+	return comment
+}
 
 /**
  * GET /api/comments/:videoId
@@ -45,7 +59,7 @@ router.get("/:videoId", async (req, res) => {
 		res.status(200).json({
 			success: true,
 			message: "Comments retrieved successfully.",
-			comments,
+			comments: comments.map(normalizeCommentResponse),
 		})
 	} catch (error) {
 		console.error("Get comments error:", error)
@@ -142,7 +156,7 @@ router.post("/:videoId", authMiddleware, async (req, res) => {
 		res.status(201).json({
 			success: true,
 			message: "Comment added successfully.",
-			comment: newComment,
+			comment: normalizeCommentResponse(newComment),
 		})
 	} catch (error) {
 		console.error("Add comment error:", error)
@@ -232,7 +246,7 @@ router.put("/:commentId", authMiddleware, async (req, res) => {
 		res.status(200).json({
 			success: true,
 			message: "Comment updated successfully.",
-			comment,
+			comment: normalizeCommentResponse(comment),
 		})
 	} catch (error) {
 		console.error("Update comment error:", error)

@@ -5,6 +5,11 @@ import Comment from "../models/Comment.js"
 import User from "../models/User.js"
 import authMiddleware from "../middleware/authMiddleware.js"
 import { validateChannel } from "../utils/validators.js"
+import {
+	normalizeAvatarUrl,
+	normalizeChannelBannerUrl,
+	normalizeThumbnailUrl,
+} from "../utils/helpers.js"
 
 const router = express.Router()
 
@@ -14,6 +19,50 @@ const buildChannelLookup = (id) => ({
 		...(id?.match(/^[0-9a-fA-F]{24}$/) ? [{ _id: id }] : []),
 	],
 })
+
+const normalizeChannelResponse = (channelDoc) => {
+	const channel = channelDoc.toObject ? channelDoc.toObject() : { ...channelDoc }
+
+	channel.channelBanner = normalizeChannelBannerUrl(
+		channel.channelBanner,
+		channel.channelName,
+	)
+
+	if (channel.owner) {
+		channel.owner.avatar = normalizeAvatarUrl(
+			channel.owner.avatar,
+			channel.owner.username,
+		)
+	}
+
+	if (Array.isArray(channel.videos)) {
+		channel.videos = channel.videos.map((video) => {
+			const normalizedVideo = video.toObject ? video.toObject() : { ...video }
+			normalizedVideo.thumbnailUrl = normalizeThumbnailUrl(
+				normalizedVideo.thumbnailUrl,
+				normalizedVideo.videoUrl,
+			)
+
+			if (normalizedVideo.uploader) {
+				normalizedVideo.uploader.avatar = normalizeAvatarUrl(
+					normalizedVideo.uploader.avatar,
+					normalizedVideo.uploader.username,
+				)
+			}
+
+			if (normalizedVideo.channelId) {
+				normalizedVideo.channelId.channelBanner = normalizeChannelBannerUrl(
+					normalizedVideo.channelId.channelBanner,
+					normalizedVideo.channelId.channelName,
+				)
+			}
+
+			return normalizedVideo
+		})
+	}
+
+	return channel
+}
 
 /**
  * GET /api/channels
@@ -28,7 +77,7 @@ router.get("/", async (req, res) => {
 		res.status(200).json({
 			success: true,
 			message: "Channels retrieved successfully.",
-			channels,
+			channels: channels.map(normalizeChannelResponse),
 		})
 	} catch (error) {
 		console.error("Get channels error:", error)
@@ -68,7 +117,7 @@ router.get("/:id", async (req, res) => {
 		res.status(200).json({
 			success: true,
 			message: "Channel retrieved successfully.",
-			channel,
+			channel: normalizeChannelResponse(channel),
 		})
 	} catch (error) {
 		console.error("Get channel error:", error)
@@ -130,7 +179,7 @@ router.post("/", authMiddleware, async (req, res) => {
 		res.status(201).json({
 			success: true,
 			message: "Channel created successfully.",
-			channel: newChannel,
+			channel: normalizeChannelResponse(newChannel),
 		})
 	} catch (error) {
 		console.error("Create channel error:", error)
@@ -195,7 +244,7 @@ router.put("/:id", authMiddleware, async (req, res) => {
 		res.status(200).json({
 			success: true,
 			message: "Channel updated successfully.",
-			channel,
+			channel: normalizeChannelResponse(channel),
 		})
 	} catch (error) {
 		console.error("Update channel error:", error)

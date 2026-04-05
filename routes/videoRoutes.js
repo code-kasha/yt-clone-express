@@ -5,9 +5,51 @@ import Channel from "../models/Channel.js"
 import authMiddleware from "../middleware/authMiddleware.js"
 import { validateVideo } from "../utils/validators.js"
 
-import { getYouTubeVideoId, getThumbnailUrl } from "../utils/helpers.js"
+import {
+	getThumbnailUrl,
+	normalizeAvatarUrl,
+	normalizeChannelBannerUrl,
+	normalizeThumbnailUrl,
+} from "../utils/helpers.js"
 
 const router = express.Router()
+
+const normalizeVideoResponse = (videoDoc) => {
+	const video = videoDoc.toObject ? videoDoc.toObject() : { ...videoDoc }
+
+	video.thumbnailUrl = normalizeThumbnailUrl(video.thumbnailUrl, video.videoUrl)
+
+	if (video.uploader) {
+		video.uploader.avatar = normalizeAvatarUrl(
+			video.uploader.avatar,
+			video.uploader.username,
+		)
+	}
+
+	if (video.channelId) {
+		video.channelId.channelBanner = normalizeChannelBannerUrl(
+			video.channelId.channelBanner,
+			video.channelId.channelName,
+		)
+	}
+
+	if (Array.isArray(video.comments)) {
+		video.comments = video.comments.map((comment) => {
+			const normalizedComment = comment.toObject ? comment.toObject() : { ...comment }
+
+			if (normalizedComment.userId) {
+				normalizedComment.userId.avatar = normalizeAvatarUrl(
+					normalizedComment.userId.avatar,
+					normalizedComment.userId.username,
+				)
+			}
+
+			return normalizedComment
+		})
+	}
+
+	return video
+}
 
 /**
  * GET /api/videos
@@ -55,7 +97,7 @@ router.get("/", async (req, res) => {
 		res.status(200).json({
 			success: true,
 			message: "Videos retrieved successfully.",
-			videos,
+			videos: videos.map(normalizeVideoResponse),
 			pagination: {
 				page: parseInt(page),
 				limit: parseInt(limit),
@@ -120,7 +162,7 @@ router.get("/:id", async (req, res) => {
 		res.status(200).json({
 			success: true,
 			message: "Video retrieved successfully.",
-			video,
+			video: normalizeVideoResponse(video),
 		})
 	} catch (error) {
 		console.error("Get video error:", error)
@@ -331,7 +373,7 @@ router.post("/", authMiddleware, async (req, res) => {
 		res.status(201).json({
 			success: true,
 			message: "Video created successfully.",
-			video: newVideo,
+			video: normalizeVideoResponse(newVideo),
 		})
 	} catch (error) {
 		console.error("Create video error:", error)
@@ -435,7 +477,7 @@ router.put("/:id", authMiddleware, async (req, res) => {
 		res.status(200).json({
 			success: true,
 			message: "Video updated successfully.",
-			video: updatedVideo,
+			video: normalizeVideoResponse(updatedVideo),
 		})
 	} catch (error) {
 		console.error("Update video error:", error)
