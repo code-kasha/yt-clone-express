@@ -1,5 +1,6 @@
 import mongoose from "mongoose"
 import dotenv from "dotenv"
+import bcrypt from "bcryptjs"
 
 import User from "../models/User.js"
 import Channel from "../models/Channel.js"
@@ -50,7 +51,7 @@ let youtubeVideos = [
 	{ title: "AI Explained", id: "2ePf9rue1Ao", category: "Education" },
 ]
 
-// ✅ ensure at least 50 videos
+// ensure 50 videos
 while (youtubeVideos.length < 50) {
 	youtubeVideos.push({
 		title: `Extra Video ${youtubeVideos.length + 1}`,
@@ -61,38 +62,27 @@ while (youtubeVideos.length < 50) {
 
 // ================= USERS =================
 console.log("\n👥 Creating users...")
-const users = await User.insertMany([
-	{
-		userId: "user_1",
-		username: "TechGuru",
-		email: "tech@mail.com",
-		password: "123456",
-	},
-	{
-		userId: "user_2",
-		username: "MusicLover",
-		email: "music@mail.com",
-		password: "123456",
-	},
-	{
-		userId: "user_3",
-		username: "GameMaster",
-		email: "game@mail.com",
-		password: "123456",
-	},
-	{
-		userId: "user_4",
-		username: "EduPro",
-		email: "edu@mail.com",
-		password: "123456",
-	},
-	{
-		userId: "user_5",
-		username: "FunZone",
-		email: "fun@mail.com",
-		password: "123456",
-	},
-])
+
+const rawUsers = [
+	{ userId: "user_1", username: "TechGuru", email: "tech@mail.com" },
+	{ userId: "user_2", username: "MusicLover", email: "music@mail.com" },
+	{ userId: "user_3", username: "GameMaster", email: "game@mail.com" },
+	{ userId: "user_4", username: "EduPro", email: "edu@mail.com" },
+	{ userId: "user_5", username: "FunZone", email: "fun@mail.com" },
+]
+
+const users = []
+
+for (let u of rawUsers) {
+	const hashedPassword = await bcrypt.hash("QWER!@#$", 10)
+
+	const user = await User.create({
+		...u,
+		password: hashedPassword,
+	})
+
+	users.push(user)
+}
 
 // ================= CHANNELS =================
 console.log("\n📺 Creating channels...")
@@ -122,7 +112,7 @@ let videoCounter = 1
 for (let i = 0; i < channels.length; i++) {
 	for (let j = 0; j < 10; j++) {
 		const index = i * 10 + j
-		const yt = youtubeVideos[index % youtubeVideos.length] // ✅ FIX
+		const yt = youtubeVideos[index % youtubeVideos.length]
 
 		const video = await Video.create({
 			videoId: `vid_${videoCounter++}`,
@@ -173,4 +163,6 @@ console.log(`Channels: ${channels.length}`)
 console.log(`Videos: ${videos.length}`)
 
 await mongoose.connection.close()
+console.log("🔌 DB closed")
+
 process.exit()

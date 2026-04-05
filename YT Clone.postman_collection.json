@@ -1,0 +1,703 @@
+{
+  "info": {
+    "_postman_id": "0e77083a-8d7f-42d8-8f6a-31bb1ab4c004",
+    "name": "YT Clone",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "40285552"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"Techyuser\",\r\n    \"email\": \"tech@maidl.com\",\r\n    \"password\": \"QWER!@#$\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:5000/api/auth/register",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Profile",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWQyNGM2MzVmYTE4NTJiZjdkN2VkMWQiLCJ1c2VybmFtZSI6InRlY2h5dXNlciIsImVtYWlsIjoidGVjaEBtYWlkbC5jb20iLCJpYXQiOjE3NzUzODk3OTUsImV4cCI6MTc3NTk5NDU5NX0.B4zjwk-4VDfW9ivpQvQ0oKl0zPn7Hr3CPgaciGjIBpY",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:5000/api/auth/me",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "auth",
+                "me"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"tech@mail.com\",\r\n    \"password\": \"QWER!@#$\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:5000/api/auth/login",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Channels",
+      "item": [
+        {
+          "name": "Get All Channels",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:5000/api/channels",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "channels"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Channel",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:5000/api/channels/69d24c03d782e1bfb38383da",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "channels",
+                "69d24c03d782e1bfb38383da"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Channel",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWQyNGM2MzVmYTE4NTJiZjdkN2VkMWQiLCJ1c2VybmFtZSI6InRlY2h5dXNlciIsImVtYWlsIjoidGVjaEBtYWlkbC5jb20iLCJpYXQiOjE3NzUzODk3OTUsImV4cCI6MTc3NTk5NDU5NX0.B4zjwk-4VDfW9ivpQvQ0oKl0zPn7Hr3CPgaciGjIBpY",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"channelName\": \"Linus Tech Tips\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:5000/api/channels/",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "channels",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Channel",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWQyNGM2MzVmYTE4NTJiZjdkN2VkMWQiLCJ1c2VybmFtZSI6InRlY2h5dXNlciIsImVtYWlsIjoidGVjaEBtYWlkbC5jb20iLCJpYXQiOjE3NzUzODk3OTUsImV4cCI6MTc3NTk5NDU5NX0.B4zjwk-4VDfW9ivpQvQ0oKl0zPn7Hr3CPgaciGjIBpY",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"channelName\": \"Linus Tips\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:5000/api/channels/ch_1775390241279_wqh7r0903",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "channels",
+                "ch_1775390241279_wqh7r0903"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Channel",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWQyNGM2MzVmYTE4NTJiZjdkN2VkMWQiLCJ1c2VybmFtZSI6InRlY2h5dXNlciIsImVtYWlsIjoidGVjaEBtYWlkbC5jb20iLCJpYXQiOjE3NzUzODk3OTUsImV4cCI6MTc3NTk5NDU5NX0.B4zjwk-4VDfW9ivpQvQ0oKl0zPn7Hr3CPgaciGjIBpY",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"channelName\": \"Linus Tips\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:5000/api/channels/ch_1775390241279_wqh7r0903",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "channels",
+                "ch_1775390241279_wqh7r0903"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Videos",
+      "item": [
+        {
+          "name": "Get Videos",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:5000/api/videos",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "videos"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Video",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:5000/api/videos/69d250745fa1852bf7d7ed21",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "videos",
+                "69d250745fa1852bf7d7ed21"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Video",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWQyNGM2MzVmYTE4NTJiZjdkN2VkMWQiLCJ1c2VybmFtZSI6InRlY2h5dXNlciIsImVtYWlsIjoidGVjaEBtYWlkbC5jb20iLCJpYXQiOjE3NzUzODk3OTUsImV4cCI6MTc3NTk5NDU5NX0.B4zjwk-4VDfW9ivpQvQ0oKl0zPn7Hr3CPgaciGjIBpY",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"videoUrl\": \"https://www.youtube.com/watch?v=QAiYQf3mXQk\",\r\n    \"title\": \"Under The Influence\",\r\n    \"description\": \"Eminem and D12\",\r\n    \"channelId\": \"ch_1775390626168_zv4uhxskc\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:5000/api/videos",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "videos"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Video",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWQyNGM2MzVmYTE4NTJiZjdkN2VkMWQiLCJ1c2VybmFtZSI6InRlY2h5dXNlciIsImVtYWlsIjoidGVjaEBtYWlkbC5jb20iLCJpYXQiOjE3NzUzODk3OTUsImV4cCI6MTc3NTk5NDU5NX0.B4zjwk-4VDfW9ivpQvQ0oKl0zPn7Hr3CPgaciGjIBpY",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \r\n    \"title\": \"Under The Influence and D12\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:5000/api/videos/69d24fae5fa1852bf7d7ed20",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "videos",
+                "69d24fae5fa1852bf7d7ed20"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Video",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWQyNGM2MzVmYTE4NTJiZjdkN2VkMWQiLCJ1c2VybmFtZSI6InRlY2h5dXNlciIsImVtYWlsIjoidGVjaEBtYWlkbC5jb20iLCJpYXQiOjE3NzUzODk3OTUsImV4cCI6MTc3NTk5NDU5NX0.B4zjwk-4VDfW9ivpQvQ0oKl0zPn7Hr3CPgaciGjIBpY",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \r\n    \"title\": \"Under The Influence and D12\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:5000/api/videos/69d24fae5fa1852bf7d7ed20",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "videos",
+                "69d24fae5fa1852bf7d7ed20"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Like Video",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWQyNGM2MzVmYTE4NTJiZjdkN2VkMWQiLCJ1c2VybmFtZSI6InRlY2h5dXNlciIsImVtYWlsIjoidGVjaEBtYWlkbC5jb20iLCJpYXQiOjE3NzUzODk3OTUsImV4cCI6MTc3NTk5NDU5NX0.B4zjwk-4VDfW9ivpQvQ0oKl0zPn7Hr3CPgaciGjIBpY",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \r\n    \"title\": \"Under The Influence and D12\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:5000/api/videos/69d250745fa1852bf7d7ed21/like",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "videos",
+                "69d250745fa1852bf7d7ed21",
+                "like"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Dislike Video",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWQyNGM2MzVmYTE4NTJiZjdkN2VkMWQiLCJ1c2VybmFtZSI6InRlY2h5dXNlciIsImVtYWlsIjoidGVjaEBtYWlkbC5jb20iLCJpYXQiOjE3NzUzODk3OTUsImV4cCI6MTc3NTk5NDU5NX0.B4zjwk-4VDfW9ivpQvQ0oKl0zPn7Hr3CPgaciGjIBpY",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \r\n    \"title\": \"Under The Influence and D12\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:5000/api/videos/69d250745fa1852bf7d7ed21/dislike",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "videos",
+                "69d250745fa1852bf7d7ed21",
+                "dislike"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Comments",
+      "item": [
+        {
+          "name": "Get Comments",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:5000/api/comments/69d24c03d782e1bfb383840c",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "comments",
+                "69d24c03d782e1bfb383840c"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Comment",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWQyNGM2MzVmYTE4NTJiZjdkN2VkMWQiLCJ1c2VybmFtZSI6InRlY2h5dXNlciIsImVtYWlsIjoidGVjaEBtYWlkbC5jb20iLCJpYXQiOjE3NzUzODk3OTUsImV4cCI6MTc3NTk5NDU5NX0.B4zjwk-4VDfW9ivpQvQ0oKl0zPn7Hr3CPgaciGjIBpY",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"text\": \"Renegade\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:5000/api/comments/69d24c03d782e1bfb383840c",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "comments",
+                "69d24c03d782e1bfb383840c"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Comment",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWQyNGM2MzVmYTE4NTJiZjdkN2VkMWQiLCJ1c2VybmFtZSI6InRlY2h5dXNlciIsImVtYWlsIjoidGVjaEBtYWlkbC5jb20iLCJpYXQiOjE3NzUzODk3OTUsImV4cCI6MTc3NTk5NDU5NX0.B4zjwk-4VDfW9ivpQvQ0oKl0zPn7Hr3CPgaciGjIBpY",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"text\": \"Never been afraid to say, what's on my mind at any given time or day\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:5000/api/comments/69d251915fa1852bf7d7ed22",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "comments",
+                "69d251915fa1852bf7d7ed22"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Comment",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWQyNGM2MzVmYTE4NTJiZjdkN2VkMWQiLCJ1c2VybmFtZSI6InRlY2h5dXNlciIsImVtYWlsIjoidGVjaEBtYWlkbC5jb20iLCJpYXQiOjE3NzUzODk3OTUsImV4cCI6MTc3NTk5NDU5NX0.B4zjwk-4VDfW9ivpQvQ0oKl0zPn7Hr3CPgaciGjIBpY",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "localhost:5000/api/comments/69d251915fa1852bf7d7ed22",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "comments",
+                "69d251915fa1852bf7d7ed22"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "API ROOT",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:5000/api",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
