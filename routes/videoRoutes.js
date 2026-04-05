@@ -98,7 +98,7 @@ router.get("/:id", async (req, res) => {
 		const video = await Video.findByIdAndUpdate(
 			id,
 			{ $inc: { views: 1 } },
-			{ new: true },
+			{ returnDocument: "after" },
 		)
 			.populate("uploader", "username avatar userId email")
 			.populate("channelId", "channelName channelBanner subscribers owner")
@@ -239,13 +239,23 @@ router.post("/", authMiddleware, async (req, res) => {
 		const userId = req.user.userId
 		const normalizedChannelId = channelId?.trim()
 
+		// ==================== VALIDATE VIDEO URL ====================
+		if (!videoUrl || typeof videoUrl !== "string" || videoUrl.trim() === "") {
+			return res.status(400).json({
+				success: false,
+				message: "Video URL is required and must be a valid string.",
+				errors: { videoUrl: "Must provide a valid YouTube URL" },
+			})
+		}
+
 		// ==================== THUMBNAIL GENERATION ====================
-		const generatedThumbnail = getThumbnailUrl(videoUrl)
+		const generatedThumbnail = getThumbnailUrl(videoUrl.trim())
 
 		if (!generatedThumbnail) {
 			return res.status(400).json({
 				success: false,
 				message: "Invalid YouTube URL. Could not extract thumbnail.",
+				errors: { videoUrl: "Please provide a valid YouTube URL" },
 			})
 		}
 
@@ -417,7 +427,7 @@ router.put("/:id", authMiddleware, async (req, res) => {
 
 		// ==================== UPDATE VIDEO ====================
 		const updatedVideo = await Video.findByIdAndUpdate(id, updates, {
-			new: true,
+			returnDocument: "after",
 		})
 			.populate("uploader", "username avatar userId")
 			.populate("channelId", "channelName channelBanner")
