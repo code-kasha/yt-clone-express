@@ -63,18 +63,23 @@ app.get("/api", (req, res) => {
 		success: true,
 		message: "YouTube Clone API",
 		version: "1.0.0",
+		baseUrl: "http://localhost:5000/api",
 		endpoints: {
+			health: {
+				checkHealth: "GET /health",
+			},
 			auth: {
 				register: "POST /api/auth/register",
 				login: "POST /api/auth/login",
 				getProfile: "GET /api/auth/me (protected)",
 			},
 			videos: {
-				getAllVideos: "GET /api/videos",
+				getAllVideos:
+					"GET /api/videos (supports ?search=, ?category=, ?page=, ?limit=)",
 				getVideoById: "GET /api/videos/:id",
 				createVideo: "POST /api/videos (protected)",
-				updateVideo: "PATCH /api/videos/:id (protected)",
-				deleteVideo: "DELETE /api/videos/:id (protected)",
+				updateVideo: "PUT /api/videos/:id (protected, owner only)",
+				deleteVideo: "DELETE /api/videos/:id (protected, owner only)",
 				likeVideo: "PUT /api/videos/:id/like (protected)",
 				dislikeVideo: "PUT /api/videos/:id/dislike (protected)",
 			},
@@ -82,6 +87,8 @@ app.get("/api", (req, res) => {
 				getAllChannels: "GET /api/channels",
 				getChannelById: "GET /api/channels/:id",
 				createChannel: "POST /api/channels (protected)",
+				updateChannel: "PUT /api/channels/:id (protected, owner only)",
+				deleteChannel: "DELETE /api/channels/:id (protected, owner only)",
 			},
 			comments: {
 				getComments: "GET /api/comments/:videoId",
@@ -91,6 +98,8 @@ app.get("/api", (req, res) => {
 					"DELETE /api/comments/:commentId (protected, author only)",
 			},
 		},
+		totalEndpoints: 22,
+		documentation: "See README.md for detailed documentation",
 	})
 })
 
@@ -110,16 +119,30 @@ app.use((req, res) => {
 		message: "Route not found",
 		path: req.path,
 		method: req.method,
-		availableRoutes: [
+		availableEndpoints: [
 			"GET /health",
 			"GET /api",
 			"POST /api/auth/register",
 			"POST /api/auth/login",
 			"GET /api/auth/me",
 			"GET /api/videos",
+			"GET /api/videos/:id",
+			"POST /api/videos",
+			"PUT /api/videos/:id",
+			"DELETE /api/videos/:id",
+			"PUT /api/videos/:id/like",
+			"PUT /api/videos/:id/dislike",
 			"GET /api/channels",
 			"GET /api/channels/:id",
+			"POST /api/channels",
+			"PUT /api/channels/:id",
+			"DELETE /api/channels/:id",
+			"GET /api/comments/:videoId",
+			"POST /api/comments/:videoId",
+			"PUT /api/comments/:commentId",
+			"DELETE /api/comments/:commentId",
 		],
+		hint: "Visit GET /api for full documentation",
 	})
 })
 
