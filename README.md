@@ -23,18 +23,18 @@ All data is persisted in MongoDB with proper validation, error handling, and sec
 
 This backend implements **the complete backend requirements** for the MERN YouTube Clone capstone project, covering all criteria in the **Back-End (120 marks)** and **Search & Filter Functionality (40 marks)** sections:
 
-| Rubric Section           | Criteria                                    | Status | Implementation                                                                   |
-| ------------------------ | ------------------------------------------- | ------ | ---------------------------------------------------------------------------------- |
-| **API Design (40 marks)** | User authentication                         | ✅     | `/api/auth/register`, `/api/auth/login`, `/api/auth/me` (protected)               |
-|                          | Channel management                          | ✅     | `/api/channels` (CREATE), `GET /api/channels/:id` (READ with videos populated)    |
-|                          | Video management                            | ✅     | `GET /api/videos`, `PUT /api/videos/:id`, `DELETE /api/videos/:id` (owner verified) |
-|                          | Comments                                    | ✅     | `POST /api/comments/:videoId`, `GET`, `PUT`, `DELETE` (author verified)           |
-| **Data Handling (40)**  | Store users, videos, channels, comments     | ✅     | 4 Mongoose models with proper relationships & validations                        |
-|                          | Store file metadata                         | ✅     | thumbnailUrl (auto-extracted from YouTube), videoUrl, descriptions               |
-| **JWT Integration (40)** | Secure JWT authentication                   | ✅     | `jsonwebtoken` v9.0.3, `JWT_SECRET` env var, 7-day expiry                        |
-|                          | Protected routes                            | ✅     | `authMiddleware.js` verifies tokens; 401 on invalid/missing                      |
-| **Search by Title (20)** | Search functionality                        | ✅     | `GET /api/videos?search=query` (case-insensitive, regex-powered)                  |
-| **Filter by Category (20)** | Category filters                            | ✅     | `GET /api/videos?category=Education` (7 categories: Music, Gaming, etc.)          |
+| Rubric Section              | Criteria                                | Status | Implementation                                                                      |
+| --------------------------- | --------------------------------------- | ------ | ----------------------------------------------------------------------------------- |
+| **API Design (40 marks)**   | User authentication                     | ✅     | `/api/auth/register`, `/api/auth/login`, `/api/auth/me` (protected)                 |
+|                             | Channel management                      | ✅     | `/api/channels` (CREATE), `GET /api/channels/:id` (READ with videos populated)      |
+|                             | Video management                        | ✅     | `GET /api/videos`, `PUT /api/videos/:id`, `DELETE /api/videos/:id` (owner verified) |
+|                             | Comments                                | ✅     | `POST /api/comments/:videoId`, `GET`, `PUT`, `DELETE` (author verified)             |
+| **Data Handling (40)**      | Store users, videos, channels, comments | ✅     | 4 Mongoose models with proper relationships & validations                           |
+|                             | Store file metadata                     | ✅     | thumbnailUrl (auto-extracted from YouTube), videoUrl, descriptions                  |
+| **JWT Integration (40)**    | Secure JWT authentication               | ✅     | `jsonwebtoken` v9.0.3, `JWT_SECRET` env var, 7-day expiry                           |
+|                             | Protected routes                        | ✅     | `authMiddleware.js` verifies tokens; 401 on invalid/missing                         |
+| **Search by Title (20)**    | Search functionality                    | ✅     | `GET /api/videos?search=query` (case-insensitive, regex-powered)                    |
+| **Filter by Category (20)** | Category filters                        | ✅     | `GET /api/videos?category=Education` (7 categories: Music, Gaming, etc.)            |
 
 **Total Backend Coverage: 120/120 marks implemented** ✅
 

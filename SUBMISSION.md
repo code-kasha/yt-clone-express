@@ -32,39 +32,40 @@
 
 ## 📊 Backend Rubric Coverage (120/120 marks)
 
-| Section | Marks | Status |
-|---------|-------|--------|
-| API Design | 40 | ✅ Complete |
-| Data Handling (MongoDB) | 40 | ✅ Complete |
-| JWT Integration | 40 | ✅ Complete |
-| Search by Title | 20 | ✅ Complete |
-| Filter by Category | 20 | ✅ Complete |
-| **TOTAL** | **160** | ✅ **100%** |
+| Section                 | Marks   | Status      |
+| ----------------------- | ------- | ----------- |
+| API Design              | 40      | ✅ Complete |
+| Data Handling (MongoDB) | 40      | ✅ Complete |
+| JWT Integration         | 40      | ✅ Complete |
+| Search by Title         | 20      | ✅ Complete |
+| Filter by Category      | 20      | ✅ Complete |
+| **TOTAL**               | **160** | ✅ **100%** |
 
 ---
 
 ## 🔗 Important Files
 
-| File | Purpose |
-|------|---------|
-| [README.md](README.md) | Main project documentation |
-| [RUBRIC.md](RUBRIC.md) | Capstone rubric compliance mapping |
-| [ENDPOINTS.md](ENDPOINTS.md) | Complete API endpoint reference |
-| [SETUP_VERIFICATION.md](SETUP_VERIFICATION.md) | Step-by-step setup & test guide |
-| [CHECKLIST.md](CHECKLIST.md) | Implementation tracking |
-| [package.json](package.json) | Dependencies and scripts |
-| [.env.example](.env.example) | Environment template |
-| [config/db.js](config/db.js) | Database connection |
-| [models/](models/) | Mongoose schemas |
-| [routes/](routes/) | API route handlers |
-| [middleware/authMiddleware.js](middleware/authMiddleware.js) | JWT verification |
-| [utils/validators.js](utils/validators.js) | Input validation |
+| File                                                         | Purpose                            |
+| ------------------------------------------------------------ | ---------------------------------- |
+| [README.md](README.md)                                       | Main project documentation         |
+| [RUBRIC.md](RUBRIC.md)                                       | Capstone rubric compliance mapping |
+| [ENDPOINTS.md](ENDPOINTS.md)                                 | Complete API endpoint reference    |
+| [SETUP_VERIFICATION.md](SETUP_VERIFICATION.md)               | Step-by-step setup & test guide    |
+| [CHECKLIST.md](CHECKLIST.md)                                 | Implementation tracking            |
+| [package.json](package.json)                                 | Dependencies and scripts           |
+| [.env.example](.env.example)                                 | Environment template               |
+| [config/db.js](config/db.js)                                 | Database connection                |
+| [models/](models/)                                           | Mongoose schemas                   |
+| [routes/](routes/)                                           | API route handlers                 |
+| [middleware/authMiddleware.js](middleware/authMiddleware.js) | JWT verification                   |
+| [utils/validators.js](utils/validators.js)                   | Input validation                   |
 
 ---
 
 ## 🚀 Quick Evaluation Steps
 
 ### 1. Setup (2 minutes)
+
 ```bash
 cd backend
 pnpm install
@@ -73,22 +74,28 @@ cp .env.example .env
 ```
 
 ### 2. Run Server (1 minute)
+
 ```bash
 pnpm dev
 ```
+
 Expected: Server listening on `http://localhost:5000`
 
 ### 3. Populate Database (1 minute)
+
 ```bash
 pnpm run seed
 ```
+
 Expected: 4 users, 4 channels, 5 videos, 5 comments created
 
 ### 4. Test Endpoints (5 minutes)
+
 - See [SETUP_VERIFICATION.md](SETUP_VERIFICATION.md) for cURL commands
 - Or use Postman/Thunder Client with [ENDPOINTS.md](ENDPOINTS.md)
 
 ### 5. Verify Rubric Compliance (3 minutes)
+
 - See [RUBRIC.md](RUBRIC.md) for detailed mapping
 
 ---
@@ -135,6 +142,7 @@ Expected: 4 users, 4 channels, 5 videos, 5 comments created
 ## 🎯 Testing Verification
 
 ### Authentication Flow
+
 ```
 1. POST /api/auth/register → 201 Created (new user)
 2. POST /api/auth/login → 200 OK (returns JWT)
@@ -143,6 +151,7 @@ Expected: 4 users, 4 channels, 5 videos, 5 comments created
 ```
 
 ### Video CRUD
+
 ```
 1. GET /api/videos → 200 OK (all videos with pagination)
 2. GET /api/videos?search=query → 200 OK (filtered videos)
@@ -156,6 +165,7 @@ Expected: 4 users, 4 channels, 5 videos, 5 comments created
 ```
 
 ### Channel CRUD
+
 ```
 1. GET /api/channels → 200 OK (all channels)
 2. GET /api/channels/:id → 200 OK (with populated videos)
@@ -165,6 +175,7 @@ Expected: 4 users, 4 channels, 5 videos, 5 comments created
 ```
 
 ### Comment System
+
 ```
 1. GET /api/comments/:videoId → 200 OK (all comments)
 2. POST /api/comments/:videoId (protected) → 201 Created (new comment)

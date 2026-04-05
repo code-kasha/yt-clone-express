@@ -12,26 +12,26 @@
 
 **Requirement:** Proper design of routes for authentication, video management, and comments
 
-| Item | Implemented | Endpoint | Details |
-|------|-------------|----------|---------|
-| **User Authentication** | ✅ | `POST /api/auth/register` | Register with username, email, password |
-| | | `POST /api/auth/login` | Login returns JWT token |
-| | | `GET /api/auth/me` | Protected route, returns user profile |
-| **Channel Management** | ✅ | `POST /api/channels` | Create new channel (protected) |
-| | | `GET /api/channels/:id` | Fetch channel info + populated videos |
-| | | `PUT /api/channels/:id` | Update channel (owner only) |
-| | | `DELETE /api/channels/:id` | Delete channel + videos (owner only) |
-| **Video Management** | ✅ | `GET /api/videos` | Fetch all videos (supports search/filter) |
-| | | `GET /api/videos/:id` | Fetch single video (increments views) |
-| | | `POST /api/videos` | Create video (protected, owner only) |
-| | | `PUT /api/videos/:id` | Update video (owner only) |
-| | | `DELETE /api/videos/:id` | Delete video (owner only) |
-| | | `PUT /api/videos/:id/like` | Toggle like (protected) |
-| | | `PUT /api/videos/:id/dislike` | Toggle dislike (protected) |
-| **Comments** | ✅ | `GET /api/comments/:videoId` | Fetch all comments for a video |
-| | | `POST /api/comments/:videoId` | Add comment (protected) |
-| | | `PUT /api/comments/:commentId` | Edit comment (author only) |
-| | | `DELETE /api/comments/:commentId` | Delete comment (author only) |
+| Item                    | Implemented | Endpoint                          | Details                                   |
+| ----------------------- | ----------- | --------------------------------- | ----------------------------------------- |
+| **User Authentication** | ✅          | `POST /api/auth/register`         | Register with username, email, password   |
+|                         |             | `POST /api/auth/login`            | Login returns JWT token                   |
+|                         |             | `GET /api/auth/me`                | Protected route, returns user profile     |
+| **Channel Management**  | ✅          | `POST /api/channels`              | Create new channel (protected)            |
+|                         |             | `GET /api/channels/:id`           | Fetch channel info + populated videos     |
+|                         |             | `PUT /api/channels/:id`           | Update channel (owner only)               |
+|                         |             | `DELETE /api/channels/:id`        | Delete channel + videos (owner only)      |
+| **Video Management**    | ✅          | `GET /api/videos`                 | Fetch all videos (supports search/filter) |
+|                         |             | `GET /api/videos/:id`             | Fetch single video (increments views)     |
+|                         |             | `POST /api/videos`                | Create video (protected, owner only)      |
+|                         |             | `PUT /api/videos/:id`             | Update video (owner only)                 |
+|                         |             | `DELETE /api/videos/:id`          | Delete video (owner only)                 |
+|                         |             | `PUT /api/videos/:id/like`        | Toggle like (protected)                   |
+|                         |             | `PUT /api/videos/:id/dislike`     | Toggle dislike (protected)                |
+| **Comments**            | ✅          | `GET /api/comments/:videoId`      | Fetch all comments for a video            |
+|                         |             | `POST /api/comments/:videoId`     | Add comment (protected)                   |
+|                         |             | `PUT /api/comments/:commentId`    | Edit comment (author only)                |
+|                         |             | `DELETE /api/comments/:commentId` | Delete comment (author only)              |
 
 **Score: 40/40** ✅
 
@@ -58,6 +58,7 @@
 ```
 
 **Implementation Status:** ✅ Complete
+
 - Stores user identity and authentication data
 - Password properly hashed with bcryptjs
 - References to channels
@@ -89,6 +90,7 @@
 ```
 
 **Implementation Status:** ✅ Complete
+
 - File metadata stored (thumbnailUrl, videoUrl)
 - View tracking functional
 - Like/dislike system with user tracking
@@ -113,6 +115,7 @@
 ```
 
 **Implementation Status:** ✅ Complete
+
 - Owner reference tracks channel creator
 - Video array for one-to-many relationship
 - Cascading delete removes all videos on channel deletion
@@ -134,6 +137,7 @@
 ```
 
 **Implementation Status:** ✅ Complete
+
 - Links comment to video and user
 - Timestamp tracking
 - Text content validation
@@ -146,25 +150,25 @@
 
 **Requirement:** Secure JWT-based authentication and protected routes
 
-| Criterion | Implementation | Details |
-|-----------|---------------|---------| 
-| **JWT Generation** | ✅ | `jsonwebtoken` v9.0.3 library |
-| | | Signed with `JWT_SECRET` from environment |
-| | | Token expiry: 7 days (`JWT_EXPIRES_IN`) |
-| **Token Structure** | ✅ | Payload includes: `userId`, `username`, `email` |
-| | | Header: `{"typ":"JWT", "alg":"HS256"}` |
-| **Protected Routes** | ✅ | `authMiddleware.js` verifies token |
-| | | Applied to: all POST, PUT, DELETE operations |
-| | | Applied to: `/me` profile endpoint |
-| **Error Handling** | ✅ | `401` for missing token |
-| | | `401` for invalid/expired token |
-| | | `401` for malformed token |
-| | | Specific error messages for each case |
-| **User Attachment** | ✅ | Verified token decoded and attached to `req.user` |
-| | | `req.user.userId` accessible in route handlers |
-| **Password Security** | ✅ | Passwords hashed with bcryptjs (10 salt rounds) |
-| | | Never returned in API responses |
-| | | Compared securely on login |
+| Criterion             | Implementation | Details                                           |
+| --------------------- | -------------- | ------------------------------------------------- |
+| **JWT Generation**    | ✅             | `jsonwebtoken` v9.0.3 library                     |
+|                       |                | Signed with `JWT_SECRET` from environment         |
+|                       |                | Token expiry: 7 days (`JWT_EXPIRES_IN`)           |
+| **Token Structure**   | ✅             | Payload includes: `userId`, `username`, `email`   |
+|                       |                | Header: `{"typ":"JWT", "alg":"HS256"}`            |
+| **Protected Routes**  | ✅             | `authMiddleware.js` verifies token                |
+|                       |                | Applied to: all POST, PUT, DELETE operations      |
+|                       |                | Applied to: `/me` profile endpoint                |
+| **Error Handling**    | ✅             | `401` for missing token                           |
+|                       |                | `401` for invalid/expired token                   |
+|                       |                | `401` for malformed token                         |
+|                       |                | Specific error messages for each case             |
+| **User Attachment**   | ✅             | Verified token decoded and attached to `req.user` |
+|                       |                | `req.user.userId` accessible in route handlers    |
+| **Password Security** | ✅             | Passwords hashed with bcryptjs (10 salt rounds)   |
+|                       |                | Never returned in API responses                   |
+|                       |                | Compared securely on login                        |
 
 **Score: 40/40** ✅
 
@@ -214,14 +218,14 @@ GET /api/videos?category=Education
 
 ## 📝 Summary
 
-| Category | Marks | Status |
-|----------|-------|--------|
-| **API Design** | 40 | ✅ Complete |
-| **Data Handling** | 40 | ✅ Complete |
-| **JWT Integration** | 40 | ✅ Complete |
-| **Search by Title** | 20 | ✅ Complete |
-| **Filter by Category** | 20 | ✅ Complete |
-| **SUBTOTAL** | **160** | ✅ **100% Complete** |
+| Category               | Marks   | Status               |
+| ---------------------- | ------- | -------------------- |
+| **API Design**         | 40      | ✅ Complete          |
+| **Data Handling**      | 40      | ✅ Complete          |
+| **JWT Integration**    | 40      | ✅ Complete          |
+| **Search by Title**    | 20      | ✅ Complete          |
+| **Filter by Category** | 20      | ✅ Complete          |
+| **SUBTOTAL**           | **160** | ✅ **100% Complete** |
 
 ---
 
@@ -243,6 +247,7 @@ Beyond the rubric requirements, this backend includes:
 ## 📚 How to Verify Implementation
 
 ### 1. **Test All Endpoints**
+
 ```bash
 # Start the server
 pnpm dev
@@ -255,6 +260,7 @@ pnpm run seed
 ```
 
 ### 2. **Verify Database**
+
 ```bash
 # Check MongoDB collections
 # Users: 4 sample users created
@@ -264,16 +270,19 @@ pnpm run seed
 ```
 
 ### 3. **Check JWT Security**
+
 - Try accessing protected routes without token → 401 Unauthorized
 - Use expired token → 401 Token Expired
 - Use invalid token → 401 Invalid Token
 
 ### 4. **Verify Search & Filter**
+
 - `/api/videos?search=react` → Returns videos matching "react" in title
 - `/api/videos?category=Education` → Returns only Education videos
 - `/api/videos?search=learn&category=Tech` → Combined search + filter
 
 ### 5. **Confirm Ownership Verification**
+
 - Only channel owner can update/delete their channel
 - Only video uploader can update/delete their video
 - Only comment author can edit/delete their comment

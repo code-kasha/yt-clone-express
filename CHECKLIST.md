@@ -135,6 +135,7 @@ Track every task before submission. Check off each item as it is completed.
 ## 🏆 Capstone Rubric Compliance — Backend (120/400 Marks)
 
 ### ✅ API Design (40/40 Marks)
+
 - [✅] **User Authentication** — `POST /api/auth/register`, `POST /api/auth/login`, `GET /api/auth/me` (protected)
 - [✅] **Channel Management** — `POST /api/channels` (create), `GET /api/channels/:id` (fetch info + videos)
 - [✅] **Video Management** — `GET /api/videos` (fetch all), `PUT /api/videos/:id` (update, owner only), `DELETE /api/videos/:id` (delete, owner only)
@@ -142,6 +143,7 @@ Track every task before submission. Check off each item as it is completed.
 - [✅] **Best practices followed** — Proper HTTP methods, consistent response format, error handling
 
 ### ✅ Data Handling — MongoDB (40/40 Marks)
+
 - [✅] **User collection** — Stores userId, username, email, password (hashed), avatar, channels array
 - [✅] **Video collection** — Stores videoId, title, thumbnailUrl, videoUrl, description, views, likes, dislikes, category, comments array
 - [✅] **Channel collection** — Stores channelId, channelName, owner (ref User), description, banner, subscribers, videos array
@@ -150,6 +152,7 @@ Track every task before submission. Check off each item as it is completed.
 - [✅] **Data integrity** — Foreign key references maintained, cascading deletes on channel/video deletion
 
 ### ✅ JWT Integration (40/40 Marks)
+
 - [✅] **JWT-based authentication** — `jsonwebtoken` v9.0.3 library used
 - [✅] **Secure token generation** — JWT signed with `JWT_SECRET` from environment
 - [✅] **Token expiry** — Configured via `JWT_EXPIRES_IN` (default: 7 days)
@@ -159,6 +162,7 @@ Track every task before submission. Check off each item as it is completed.
 - [✅] **Error responses** — Returns `401 Unauthorized` for missing/invalid/expired tokens
 
 ### ✅ Search & Filter Functionality (40/40 Marks)
+
 - [✅] **Search by Title (20/20)** — `GET /api/videos?search=<query>` filters by title (case-insensitive)
 - [✅] **Filter by Category (20/20)** — `GET /api/videos?category=<category>` filters by category (Music, Gaming, Education, Entertainment, Sports, Tech, Other)
 - [✅] **Query parameters** — Properly implemented with pagination support (page, limit)
@@ -168,12 +172,14 @@ Track every task before submission. Check off each item as it is completed.
 ## ✨ Complete Backend Feature Set
 
 **User Management:**
+
 - User registration with validation
 - User login with JWT token generation
 - User profile retrieval (protected)
 - Password hashing with bcryptjs (10 salt rounds)
 
 **Video Management:**
+
 - Create video (upload metadata, auto-extract YouTube thumbnail)
 - Read all videos with search/filter/pagination
 - Read single video (increments view count)
@@ -183,6 +189,7 @@ Track every task before submission. Check off each item as it is completed.
 - Dislike video (toggle, track dislikedBy array)
 
 **Channel Management:**
+
 - Create channel (user must be authenticated)
 - Read channel info + populated videos
 - Update channel metadata (owner only)
@@ -191,6 +198,7 @@ Track every task before submission. Check off each item as it is completed.
 - Links videos to channel
 
 **Comment System:**
+
 - Add comment to video (protected)
 - Fetch all comments for video
 - Edit comment (author only)
@@ -199,6 +207,7 @@ Track every task before submission. Check off each item as it is completed.
 - User information populated with comments
 
 **Security:**
+
 - Password hashing before storage (bcryptjs, 10 rounds)
 - JWT token verification on protected routes
 - Ownership checks before mutations (edit/delete)
@@ -208,6 +217,7 @@ Track every task before submission. Check off each item as it is completed.
 - Error messages don't leak sensitive data
 
 **Quality:**
+
 - ES6 Modules throughout (no CommonJS)
 - Consistent error response format
 - Proper HTTP status codes (200, 201, 400, 401, 403, 404, 409, 500)
