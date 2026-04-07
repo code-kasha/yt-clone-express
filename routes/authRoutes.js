@@ -67,17 +67,6 @@ router.post("/register", async (req, res) => {
 
 		await newUser.save()
 
-		// ==================== TOKEN GENERATION ====================
-		const token = jwt.sign(
-			{
-				userId: newUser._id,
-				username: newUser.username,
-				email: newUser.email,
-			},
-			process.env.JWT_SECRET,
-			{ expiresIn: process.env.JWT_EXPIRES_IN || "7d" },
-		)
-
 		// ==================== RESPONSE ====================
 		res.status(201).json({
 			success: true,
@@ -89,7 +78,6 @@ router.post("/register", async (req, res) => {
 				email: newUser.email,
 				avatar: normalizeAvatarUrl(newUser.avatar, newUser.username),
 			},
-			token,
 		})
 	} catch (error) {
 		console.error("Register error:", error)

@@ -35,7 +35,9 @@ const normalizeVideoResponse = (videoDoc) => {
 
 	if (Array.isArray(video.comments)) {
 		video.comments = video.comments.map((comment) => {
-			const normalizedComment = comment.toObject ? comment.toObject() : { ...comment }
+			const normalizedComment = comment.toObject
+				? comment.toObject()
+				: { ...comment }
 
 			if (normalizedComment.userId) {
 				normalizedComment.userId.avatar = normalizeAvatarUrl(
@@ -185,96 +187,7 @@ router.get("/:id", async (req, res) => {
  * Returns: { success, message, video }
  * Errors: 400 (validation), 401 (unauthorized), 403 (not channel owner), 500 (server)
  */
-//router.post("/", authMiddleware, async (req, res) => {
-//	try {
-//		const { title, description, videoUrl, thumbnailUrl, channelId, category } =
-//			req.body
-//		const userId = req.user.userId
-//		const normalizedChannelId = channelId?.trim()
 
-//		// ==================== VALIDATION ====================
-//		const validation = validateVideo({
-//			title,
-//			description,
-//			videoUrl,
-//			thumbnailUrl,
-//			channelId: normalizedChannelId,
-//			category,
-//		})
-
-//		if (!validation.isValid) {
-//			return res.status(400).json({
-//				success: false,
-//				message: "Validation failed. Please check the errors below.",
-//				errors: validation.errors,
-//			})
-//		}
-
-//		// ==================== CHANNEL OWNERSHIP CHECK ====================
-//		const channel = await Channel.findOne({
-//			$or: [
-//				{ channelId: normalizedChannelId },
-//				...(normalizedChannelId?.match(/^[0-9a-fA-F]{24}$/)
-//					? [{ _id: normalizedChannelId }]
-//					: []),
-//			],
-//		})
-
-//		if (!channel) {
-//			return res.status(404).json({
-//				success: false,
-//				message: "Channel not found.",
-//			})
-//		}
-
-//		// Check if user owns the channel
-//		if (channel.owner.toString() !== userId.toString()) {
-//			return res.status(403).json({
-//				success: false,
-//				message: "You can only upload videos to channels you own.",
-//			})
-//		}
-
-//		// ==================== VIDEO CREATION ====================
-//		const videoId = `vid_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
-
-//		const newVideo = new Video({
-//			videoId,
-//			title: title.trim(),
-//			description: description?.trim() || "",
-//			videoUrl,
-//			thumbnailUrl,
-//			channelId: channel._id,
-//			uploader: userId,
-//			category,
-//		})
-
-//		await newVideo.save()
-
-//		// ==================== ADD TO CHANNEL ====================
-//		channel.videos.push(newVideo._id)
-//		await channel.save()
-
-//		// ==================== POPULATE AND RESPONSE ====================
-//		await newVideo.populate("uploader", "username avatar userId")
-//		await newVideo.populate("channelId", "channelName channelBanner")
-
-//		res.status(201).json({
-//			success: true,
-//			message: "Video created successfully.",
-//			video: newVideo,
-//		})
-//	} catch (error) {
-//		console.error("Create video error:", error)
-//		res.status(500).json({
-//			success: false,
-//			message: "Failed to create video.",
-//			error: process.env.NODE_ENV === "development" ? error.message : undefined,
-//		})
-//	}
-//})
-
-// ==================== ROUTE ====================
 router.post("/", authMiddleware, async (req, res) => {
 	try {
 		const { title, description, videoUrl, channelId, category } = req.body
@@ -384,6 +297,7 @@ router.post("/", authMiddleware, async (req, res) => {
 		})
 	}
 })
+
 /**
  * PUT /api/videos/:id
  * Updates a video (protected route, owner only)
