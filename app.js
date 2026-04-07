@@ -13,6 +13,10 @@ import videoRoutes from "./routes/videoRoutes.js"
 import channelRoutes from "./routes/channelRoutes.js"
 import commentRoutes from "./routes/commentRoutes.js"
 
+if (!process.env.JWT_SECRET) {
+	throw new Error("JWT_SECRET is missing in environment variables")
+}
+
 // Initialize Express app
 const app = express()
 
